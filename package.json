@@ -1,0 +1,24 @@
+{
+  "name": "mimc",
+  "version": "0.1.0",
+  "description": "create diagrams and visualizations in README.md file using text and code",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SubiNesa <subinesa@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "mimc": "./bin/index.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": "^12.17.0 || ^14.13 || >=16.0.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "cheerio": "*",
+    "commander": "^9.0.0",
+    "node-html-to-image": "^3.2.4"
+  }
+}
