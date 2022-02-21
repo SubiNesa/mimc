@@ -73,7 +73,7 @@ This will generate additional element in the `<div class="data-mermaid">` after 
 
 ## Demo
 
-<img src="demo.gif" title="mimc demo" alt="mimc"/>
+<img src="https://user-images.githubusercontent.com/8751579/154897370-ad1b013c-dbef-42f4-b1f0-abe136f3ee95.gif" title="mimc demo" alt="mimc"/>
 
 ## Options
 
