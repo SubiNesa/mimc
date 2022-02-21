@@ -61,7 +61,7 @@ const fetchFiles = (argv) => {
  * @param {*} imageName
  * @returns Promise
  */
-const generateDiagram = (argv, data, id, imageName, target) => {
+const generateDiagram = (argv, data, id, target, attr) => {
   return new Promise((resolve) => {
     const dir = argv.commonImageOutput
       ? argv.imagesOuput
@@ -79,13 +79,21 @@ const generateDiagram = (argv, data, id, imageName, target) => {
       { decodeEntities: false }
     );
 
+    if (attr.width || attr.height) {
+      const body = `body {
+        ${attr.width ? 'width:' + attr.width + 'px;' : ''}
+        ${attr.height ? 'height:' + attr.height + 'px;' : ''}
+      }`;
+      $("head").append(`<style>${body}</style>`);
+    }
     $(".mermaid").append(data);
 
     nodeHtmlToImage({
-      output: imageName
-        ? `${dir}/${imageName}.png`
+      output: attr.image
+        ? `${dir}/${attr.image}.png`
         : `${dir}/diagram-${id}.png`,
       html: $.html(),
+      transparent: attr.transparent == true
     }).then(() => resolve());
   });
 };
@@ -134,33 +142,32 @@ const mimc = (argv, file) => {
         let id = Date.now();
         const element = mermaids[index];
 
-        const mermaid_data = $(element).data();
+        const attr = $(element).data();
         if (argv.debug) {
-          console.info(mermaid_data);
+          console.info(attr);
         }
-        const title = mermaid_data.title || "";
-        let image = mermaid_data.image;
+        const title = attr.title || "";
 
         // generate id
-        if (!mermaid_data.mermaid) {
+        if (!attr.mermaid) {
           $(element).attr("data-mermaid", id);
         } else {
-          id = mermaid_data.mermaid;
+          id = attr.mermaid;
         }
 
         // image name
-        if (image) {
-          image = image.replace(/[^A-Z0-9]+/gi, "-").toLowerCase();
+        if (attr.image) {
+          attr.image = attr.image.replace(/[^A-Z0-9]+/gi, "-").toLowerCase();
         } else {
-          image = `diagram-${id}`;
+          attr.image = `diagram-${id}`;
         }
         // generate image diagram
         await generateDiagram(
           argv,
           $(element).find("code").html(),
           id,
-          image,
-          target
+          target,
+          attr
         );
 
         // remove existing code
@@ -175,7 +182,7 @@ const mimc = (argv, file) => {
           argv.commonImageOutput
             ? target.replace(/[^\/]*/g, ".") + "/" + argv.imagesOuput
             : argv.imagesOuput
-        }/${image ? image : "image"}.png" title="${title}" alt="${title}"/>
+        }/${attr.image ? attr.image : "image"}.png" title="${title}" alt="${title}"/>
 </div>`);
       }
 

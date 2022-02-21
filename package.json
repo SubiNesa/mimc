@@ -1,6 +1,6 @@
 {
   "name": "mimc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "create diagrams and visualizations in README.md file using text and code",
   "main": "bin/index.js",
   "scripts": {
@@ -12,9 +12,7 @@
     "mimc": "./bin/index.js"
   },
   "type": "module",
-  "engines": {
-    "node": "^12.17.0 || ^14.13 || >=16.0.0"
-  },
+  "keywords": ["mermaid", "diagrams", "markdown", "readme.md", "cli", "command-line"],
   "dependencies": {
     "chalk": "^4.1.2",
     "cheerio": "*",

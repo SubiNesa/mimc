@@ -52,7 +52,22 @@ sequenceDiagram
     </tr>
     <tr>
       <th>data-title</th>
-      <td>Will be used to generate <i>alt</i> attribute in the data-diagram</td>
+      <td>Will be used to create <i>title</i> and <i>alt</i> attribute in the generated diagram</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <th>data-transparent</th>
+      <td>Generate images with transparent background</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <th>data-width</th>
+      <td>Width of the generated image</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <th>data-height</th>
+      <td>Height of the generated image</td>
       <td>false</td>
     </tr>
   </tbody>
