@@ -65,7 +65,7 @@ const generateDiagram = (argv, data, id, target, attr) => {
   return new Promise((resolve) => {
     const dir = argv.commonImageOutput
       ? argv.imagesOuput
-      : `${target}/${argv.imagesOuput}`;
+      : path.join(target, argv.imagesOuput);
 
     // create folder to store images
     if (!fs.existsSync(dir)) {
@@ -81,8 +81,8 @@ const generateDiagram = (argv, data, id, target, attr) => {
 
     if (attr.width || attr.height) {
       const body = `body {
-        ${attr.width ? 'width:' + attr.width + 'px;' : ''}
-        ${attr.height ? 'height:' + attr.height + 'px;' : ''}
+        ${attr.width ? "width:" + attr.width + "px;" : ""}
+        ${attr.height ? "height:" + attr.height + "px;" : ""}
       }`;
       $("head").append(`<style>${body}</style>`);
     }
@@ -90,10 +90,10 @@ const generateDiagram = (argv, data, id, target, attr) => {
 
     nodeHtmlToImage({
       output: attr.image
-        ? `${dir}/${attr.image}.png`
-        : `${dir}/diagram-${id}.png`,
+        ? path.join(dir, `${attr.image}.png`)
+        : path.join(dir, `diagram-${id}.png`),
       html: $.html(),
-      transparent: attr.transparent == true
+      transparent: attr.transparent == true,
     }).then(() => resolve());
   });
 };
@@ -123,11 +123,11 @@ const mimc = (argv, file) => {
   return new Promise(async (resolve) => {
     try {
       const data = await readfile(file);
+      const target = file.match(/\/||\\/gm) ? path.dirname(file) : "./";
 
-      const target =
-        file.lastIndexOf("/") >= 0
-          ? file.slice(0, file.lastIndexOf("/"))
-          : "./";
+      if (argv.debug) {
+        console.info(target);
+      }
 
       // load in the HTML
       const $ = cheerio.load(data, {
@@ -180,9 +180,11 @@ const mimc = (argv, file) => {
 <!-- Code auto generated on ${new Date()} -->
 <img src="${
           argv.commonImageOutput
-            ? target.replace(/[^\/]*/g, ".") + "/" + argv.imagesOuput
+            ? path.join(target.replace(/[^\/]*/g, "."), argv.imagesOuput)
             : argv.imagesOuput
-        }/${attr.image ? attr.image : "image"}.png" title="${title}" alt="${title}"/>
+        }/${
+          attr.image ? attr.image : "image"
+        }.png" title="${title}" alt="${title}"/>
 </div>`);
       }
 
