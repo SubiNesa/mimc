@@ -56,17 +56,43 @@ const fetchFiles = (argv) => {
 };
 
 /**
+ * Generate code file
+ * @param {*} dir
+ * @param {*} data
+ * @param {*} id
+ * @returns Promise
+ */
+const generateCodeFile = (dir, data, id) => {
+  return new Promise((resolve) => {
+    // create folder to store files
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+
+    const file = path.join(dir, `code-${id}.txt`);
+
+    if (!fs.existsSync(file) && data) {
+      // create file to store code
+      fs.writeFileSync(file, data);
+    } else if (fs.existsSync(file) && !data) {
+      // read existing code file to get stored code
+      data = fs.readFileSync(file, "utf8");
+    } else {
+      console.log(chalk.yellow(`No mermaid code provided in "${dir}"!`));
+    }
+
+    resolve(data);
+  });
+};
+
+/**
  * Generate png diagram
  * @param {*} data
  * @param {*} imageName
  * @returns Promise
  */
-const generateDiagram = (argv, data, id, target, attr) => {
+const generateDiagram = (dir, data, id, attr) => {
   return new Promise((resolve) => {
-    const dir = argv.commonImageOutput
-      ? argv.imagesOuput
-      : path.join(target, argv.imagesOuput);
-
     // create folder to store images
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
@@ -89,9 +115,7 @@ const generateDiagram = (argv, data, id, target, attr) => {
     $(".mermaid").append(data);
 
     nodeHtmlToImage({
-      output: attr.image
-        ? path.join(dir, `${attr.image}.png`)
-        : path.join(dir, `diagram-${id}.png`),
+      output: path.join(dir, `diagram-${id}.png`),
       html: $.html(),
       transparent: attr.transparent == true,
     }).then(() => resolve());
@@ -139,12 +163,19 @@ const mimc = (argv, file) => {
       // get all diagrams
       const mermaids = $("div[data-mermaid]");
       for (let index = 0; index < mermaids.length; index++) {
-        let id = Date.now();
         const element = mermaids[index];
+        let id = Date.now();
+        let code = null;
+        if ($(element).children("code").html()) {
+          code = $(element).find("code").html();
+        }
+        const dir = argv.commonImageOutput
+          ? argv.imagesOuput
+          : path.join(target, argv.imagesOuput);
 
         const attr = $(element).data();
         if (argv.debug) {
-          console.info(attr);
+          console.log(attr);
         }
         const title = attr.title || "";
 
@@ -156,42 +187,46 @@ const mimc = (argv, file) => {
         }
 
         // image name
-        if (attr.image) {
-          attr.image = attr.image.replace(/[^A-Z0-9]+/gi, "-").toLowerCase();
-        } else {
-          attr.image = `diagram-${id}`;
+        if (!/^\d+$/.test(id)) {
+          id = id.replace(/[^A-Z0-9]+/gi, "-").toLowerCase();
         }
-        // generate image diagram
-        await generateDiagram(
-          argv,
-          $(element).find("code").html(),
-          id,
-          target,
-          attr
-        );
+        // generate code file
+        code = await generateCodeFile(dir, code, id);
 
-        // remove existing code
-        if ($(element).children(".data-diagram").html()) {
-          $(element).children(".data-diagram").remove();
-        }
+        if (code) {
+          // generate image diagram
+          await generateDiagram(dir, code, id, attr);
 
-        // add diagram
-        $(element).append(`<div class="data-diagram">
-<!-- Code auto generated on ${new Date()} -->
+          if (argv.debug) {
+            console.log(chalk.green(`Files created in ${dir}`));
+          }
+
+          // remove existing code
+          if ($(element).children(".data-diagram").html()) {
+            $(element).children(".data-diagram").remove();
+          }
+
+          // remove code from markdown
+          if ($(element).children("code").html()) {
+            $(element).find("code").replaceWith(`<!-- Code file located in ${dir} -->`);
+          }
+
+          // add diagram
+          $(element).append(`<div class="data-diagram">
+<!-- Image auto generated on ${new Date()} -->
 <img src="${
-          argv.commonImageOutput
-            ? path.join(target.replace(/[^\/]*/g, "."), argv.imagesOuput)
-            : argv.imagesOuput
-        }/${
-          attr.image ? attr.image : "image"
-        }.png" title="${title}" alt="${title}"/>
+            argv.commonImageOutput
+              ? path.join(target.replace(/[^\/]*/g, "."), argv.imagesOuput)
+              : argv.imagesOuput
+          }/diagram-${id}.png" title="${title}" alt="${title}"/>
 </div>`);
+        }
       }
 
       // update file
       fs.writeFileSync(
         `${file}`,
-        $.html().replace(/&gt;/g, ">").replace(/&lt;/g, "<")
+        $.html()
       );
 
       return resolve();
@@ -229,7 +264,7 @@ program
     try {
       const files = fetchFiles(options);
       if (options.debug) {
-        console.info(files);
+        console.log(files);
       }
       for (let index = 0; index < files.length; index++) {
         await mimc(options, files[index]);

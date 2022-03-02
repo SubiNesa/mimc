@@ -1,6 +1,6 @@
 {
   "name": "mimc",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "create diagrams and visualizations in README.md file using text and code",
   "main": "bin/index.js",
   "scripts": {

@@ -17,8 +17,8 @@ You can write code the diagram code with help of [mermaid live editor](https://m
 In the README.md file add the `<div data-mermaid>`.
 
 ```html
-<div data-mermaid data-image="Sequence diagram" data-title="Mermaid Sequence Diagram">
-<code style="display:none;">
+<div data-mermaid data-title="Mermaid Sequence Diagram">
+<code>
 sequenceDiagram
     participant Alice
     participant Bob
@@ -46,13 +46,13 @@ sequenceDiagram
   </thead>
   <tbody>
     <tr>
-      <th>data-image</th>
-      <td>Will be used to generate the png name file</td>
-      <td>false</td>
+      <th>data-mermaid</th>
+      <td>Used to create the name of the files. If empty will be auto-generated</td>
+      <td>true</td>
     </tr>
     <tr>
       <th>data-title</th>
-      <td>Will be used to create <i>title</i> and <i>alt</i> attribute in the generated diagram</td>
+      <td>Create <i>title</i> and <i>alt</i> attribute in the generated diagram</td>
       <td>false</td>
     </tr>
     <tr>
@@ -78,7 +78,8 @@ sequenceDiagram
 ```bash
 mimc
 ```
-This will generate additional element in the `<div class="data-mermaid">` after `<code>`.
+
+This will generate additional element in the `<div class="data-mermaid">` after `<code>` and code will be stored in separate txt file.
 
 ```html
 <div class="data-diagram">
@@ -86,9 +87,22 @@ This will generate additional element in the `<div class="data-mermaid">` after 
 </div>
 ```
 
+Output
+
+```html
+<div data-mermaid="1646256939884" data-title="Mermaid Sequence Diagram">
+<!-- Code file located in docs -->
+<div class="data-diagram">
+<!-- Image auto generated on Wed Mar 02 2022 22:35:42 GMT+0100 (Central European Standard Time) -->
+<img src="docs/diagram-1646256939884.png" title="Mermaid Sequence Diagram" alt="Mermaid Sequence Diagram"/>
+</div></div>
+```
+
+> ❗ txt code file can be updated in order to genrate new image
+
 ## Demo
 
-<img src="https://user-images.githubusercontent.com/8751579/154897370-ad1b013c-dbef-42f4-b1f0-abe136f3ee95.gif" title="mimc demo" alt="mimc"/>
+<img src="https://user-images.githubusercontent.com/8751579/156455459-c6d08b9b-67c2-478c-80ba-64eeb1711a1d.gif" title="mimc demo" alt="mimc"/>
 
 ## Options
 
