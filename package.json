@@ -24,6 +24,6 @@
     "chalk": "^4.1.2",
     "cheerio": "*",
     "commander": "^9.0.0",
-    "node-html-to-image": "^3.2.4"
+    "puppeteer": "^13.5.1"
   }
 }

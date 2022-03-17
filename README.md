@@ -1,4 +1,5 @@
 # mimc
+
 ### Mermaid Image Markdown Creator
 
 The command-line solution for creating [mermaid](https://mermaid-js.github.io/) diagrams and visualizations in markdown (ex: [bitbucket](https://www.atlassian.com/software/bitbucket/enterprise)) by generating the png and automatically importing them.
@@ -10,6 +11,7 @@ npm install mimc
 ```
 
 ## Quick Start
+
 You can write code the diagram code with help of [mermaid live editor](https://mermaid-js.github.io/mermaid-live-editor/).
 
 ### Usage
@@ -18,19 +20,12 @@ In the README.md file add the `<div data-mermaid>`.
 
 ```html
 <div data-mermaid data-title="Mermaid Sequence Diagram">
-<code>
-sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice->>John: Hello John, how are you?
-    loop Healthcheck
-        John->>John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br/>prevail!
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
-</code>
+	<code>
+		sequenceDiagram participant Alice participant Bob Alice->>John: Hello John,
+		how are you? loop Healthcheck John->>John: Fight against hypochondria end
+		Note right of John: Rational thoughts <br />prevail! John-->>Alice: Great!
+		John->>Bob: How about you? Bob-->>John: Jolly good!
+	</code>
 </div>
 ```
 
@@ -76,14 +71,18 @@ sequenceDiagram
 ### Run
 
 ```bash
-mimc
+npx mimc
 ```
 
 This will generate additional element in the `<div class="data-mermaid">` after `<code>` and code will be stored in separate txt file.
 
 ```html
 <div class="data-diagram">
-<img src="docs/sequence-diagram.png" title="Mermaid Sequence Diagram" alt="Mermaid Sequence Diagram"/>
+	<img
+		src="docs/sequence-diagram.png"
+		title="Mermaid Sequence Diagram"
+		alt="Mermaid Sequence Diagram"
+	/>
 </div>
 ```
 
@@ -91,11 +90,16 @@ Output
 
 ```html
 <div data-mermaid="1646256939884" data-title="Mermaid Sequence Diagram">
-<!-- Code file located in docs -->
-<div class="data-diagram">
-<!-- Image auto generated on Wed Mar 02 2022 22:35:42 GMT+0100 (Central European Standard Time) -->
-<img src="docs/diagram-1646256939884.png" title="Mermaid Sequence Diagram" alt="Mermaid Sequence Diagram"/>
-</div></div>
+	<!-- Code file located in docs -->
+	<div class="data-diagram">
+		<!-- Image auto generated on Wed Mar 02 2022 22:35:42 GMT+0100 (Central European Standard Time) -->
+		<img
+			src="docs/diagram-1646256939884.png"
+			title="Mermaid Sequence Diagram"
+			alt="Mermaid Sequence Diagram"
+		/>
+	</div>
+</div>
 ```
 
 > ❗ txt code file can be updated in order to genrate new image
@@ -142,8 +146,14 @@ The `options` can be passed as the parameter.
       <td>[]</td>
       <td>Exclude folders. <i>node_modules</i> will always be excluded by default</td>
     </tr>
+    <tr>
+      <th>-x, --img-ext</th>
+      <td>svg</td>
+      <td>image file extension (png, jpeg or svg)</td>
+    </tr>
   </tbody>
 </table>
 
 ## License
+
 [MIT](LICENSE)
