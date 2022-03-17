@@ -1,4 +1,5 @@
 # mimc
+
 ### Mermaid Image Markdown Creator
 
 The command-line solution for creating [mermaid](https://mermaid-js.github.io/) diagrams and visualizations in markdown (ex: [bitbucket](https://www.atlassian.com/software/bitbucket/enterprise)) by generating the png and automatically importing them.
@@ -10,6 +11,7 @@ npm install mimc
 ```
 
 ## Quick Start
+
 You can write code the diagram code with help of [mermaid live editor](https://mermaid-js.github.io/mermaid-live-editor/).
 
 ### Usage
@@ -75,8 +77,13 @@ sequenceDiagram
 
 ### Run
 
+globally installed:
 ```bash
 mimc
+```
+locally installed:
+```bash
+npx mimc
 ```
 
 This will generate additional element in the `<div class="data-mermaid">` after `<code>` and code will be stored in separate txt file.
@@ -98,7 +105,7 @@ Output
 </div></div>
 ```
 
-> ❗ txt code file can be updated in order to genrate new image
+❗ txt code file can be updated in order to generate new image
 
 ## Demo
 
@@ -142,8 +149,14 @@ The `options` can be passed as the parameter.
       <td>[]</td>
       <td>Exclude folders. <i>node_modules</i> will always be excluded by default</td>
     </tr>
+    <tr>
+      <th>-x, --img-ext</th>
+      <td>svg</td>
+      <td>image file extension (png, jpeg or svg)</td>
+    </tr>
   </tbody>
 </table>
 
 ## License
+
 [MIT](LICENSE)
