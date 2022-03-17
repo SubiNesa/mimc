@@ -20,12 +20,12 @@ In the README.md file add the `<div data-mermaid>`.
 
 ```html
 <div data-mermaid data-title="Mermaid Sequence Diagram">
-	<code>
-		sequenceDiagram participant Alice participant Bob Alice->>John: Hello John,
-		how are you? loop Healthcheck John->>John: Fight against hypochondria end
-		Note right of John: Rational thoughts <br />prevail! John-->>Alice: Great!
-		John->>Bob: How about you? Bob-->>John: Jolly good!
-	</code>
+  <code>
+    sequenceDiagram participant Alice participant Bob Alice->>John: Hello John,
+    how are you? loop Healthcheck John->>John: Fight against hypochondria end
+    Note right of John: Rational thoughts <br />prevail! John-->>Alice: Great!
+    John->>Bob: How about you? Bob-->>John: Jolly good!
+  </code>
 </div>
 ```
 
@@ -78,11 +78,11 @@ This will generate additional element in the `<div class="data-mermaid">` after 
 
 ```html
 <div class="data-diagram">
-	<img
-		src="docs/sequence-diagram.png"
-		title="Mermaid Sequence Diagram"
-		alt="Mermaid Sequence Diagram"
-	/>
+  <img
+    src="docs/sequence-diagram.png"
+    title="Mermaid Sequence Diagram"
+    alt="Mermaid Sequence Diagram"
+  />
 </div>
 ```
 
@@ -90,15 +90,15 @@ Output
 
 ```html
 <div data-mermaid="1646256939884" data-title="Mermaid Sequence Diagram">
-	<!-- Code file located in docs -->
-	<div class="data-diagram">
-		<!-- Image auto generated on Wed Mar 02 2022 22:35:42 GMT+0100 (Central European Standard Time) -->
-		<img
-			src="docs/diagram-1646256939884.png"
-			title="Mermaid Sequence Diagram"
-			alt="Mermaid Sequence Diagram"
-		/>
-	</div>
+  <!-- Code file located in docs -->
+  <div class="data-diagram">
+    <!-- Image auto generated on Wed Mar 02 2022 22:35:42 GMT+0100 (Central European Standard Time) -->
+    <img
+      src="docs/diagram-1646256939884.png"
+      title="Mermaid Sequence Diagram"
+      alt="Mermaid Sequence Diagram"
+    />
+  </div>
 </div>
 ```
 
