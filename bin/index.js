@@ -2,12 +2,37 @@
 
 import { Command } from 'commander';
 import fs from 'fs';
-import cheerio from 'cheerio';
-import chalk from 'chalk';
+import * as cheerio from 'cheerio';
 import path from 'path';
 import puppeteer from 'puppeteer';
 
 const program = new Command();
+
+/**
+ * Print with color
+ * @param {*} text
+ * @param {*} color
+ */
+const print = (text, color) => {
+  switch (color) {
+    case 'red':
+      console.log(`\x1b[31m${text} \x1b[0m`);
+      break;
+    case 'green':
+      console.log(`\x1b[32m${text} \x1b[0m`);
+      break;
+    case 'yellow':
+      console.log(`\x1b[33m${text} \x1b[0m`);
+      break;
+    case 'blue':
+      console.log(`\x1b[34m${text} \x1b[0m`);
+      break;
+
+    default:
+      console.log(`${text}`);
+      break;
+  }
+};
 
 /**
  * Get all the files based on markdownFile
@@ -48,7 +73,7 @@ const fetchFiles = (argv) => {
         files.push(...childFiles.map((f) => path.join(file, f)));
       }
     } catch (err) {
-      console.error(chalk.red(err));
+      print(err, 'red');
     }
   }
 
@@ -78,7 +103,7 @@ const generateCodeFile = (dir, data, id) => {
       // read existing code file to get stored code
       data = fs.readFileSync(file, 'utf8');
     } else {
-      console.log(chalk.yellow(`No mermaid code provided in "${dir}"!`));
+      print(`No mermaid code provided in "${dir}"!`, 'yellow');
     }
 
     resolve(data);
@@ -167,7 +192,7 @@ const readfile = (file) => {
     try {
       resolve(fs.readFileSync(`${file}`, 'utf8'));
     } catch (error) {
-      console.log(chalk.red(error));
+      print(error, 'red');
     }
   });
 };
@@ -237,7 +262,7 @@ const mimc = (argv, file) => {
           await generateDiagram(dir, code, id, attr, imgExt);
 
           if (argv.debug) {
-            console.log(chalk.green(`Files created in ${dir}`));
+            print(`Files created in ${dir}`, 'green');
           }
 
           // remove existing code
@@ -269,7 +294,7 @@ const mimc = (argv, file) => {
 
       return resolve();
     } catch (err) {
-      console.error(chalk.red(err));
+      print(err, 'red');
     }
   });
 };
@@ -313,7 +338,7 @@ program
         await mimc(options, files[index]);
       }
     } catch (err) {
-      console.error(chalk.red(err));
+      print(err, 'red');
     }
   })
   .parse(process.argv);
